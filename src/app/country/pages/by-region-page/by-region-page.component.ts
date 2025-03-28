@@ -3,15 +3,9 @@ import { CountrySearchInputComponent } from "../../components/country-search-inp
 import { CountryListComponent } from "../../components/country-list/country-list.component";
 
 @Component({
-  selector: 'app-by-capital-page',
-  imports: [CountrySearchInputComponent, CountryListComponent],
-  templateUrl: './by-capital-page.component.html',
+  selector: 'app-by-region-page',
+  imports: [ CountryListComponent],
+  templateUrl: './by-region-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ByCapitalPageComponent { 
-
-  onSearch(value:string){
-    console.log('soy componente padre: ',{value});
-  }
-
-}
+export class ByRegionPageComponent {}
