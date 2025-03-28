@@ -2,5 +2,5 @@
   <country-search-input (outSearch)="onSearch($event)" [inpuTitle]=" 'Buscar por Capital' "></country-search-input>
 </section>
 
-<app-country-list></app-country-list>
+<app-country-list [countries]="countries()"></app-country-list>
 
