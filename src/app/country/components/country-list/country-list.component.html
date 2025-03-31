@@ -10,6 +10,17 @@
         </tr>
       </thead>
       <tbody>
+        @if(isLoading()){
+          <tr>
+            <td colspan="4" class="text-center">cargando...</td>
+          </tr>
+        }
+
+        @if(ismessangerError()){
+          <tr>
+            <td colspan="4" class="text-center">{{ismessangerError()}}</td>
+          </tr>
+        }
 
         @for (country of countries(); track country.cca2; let index = $index ) {
 
@@ -43,6 +54,7 @@
               </a>
             </th>
           </tr>
+         
         }
     </table>
 </div>

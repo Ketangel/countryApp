@@ -3,9 +3,15 @@
   </section>
   
   
-  @if(countryResource.error()){
+  <!-- @if(countryResource.error()){
     <h3>{{countryResource.error()}}</h3>
   }@if(countryResource.hasValue()) {
     <app-country-list [countries]="countryResource.value()!"></app-country-list>
-  }
+  } -->
   
+
+  <app-country-list 
+    [countries]="countryResource.value()" 
+    [isLoading]="countryResource.isLoading()"
+    [ismessangerError]="countryResource.error()"
+    ></app-country-list>

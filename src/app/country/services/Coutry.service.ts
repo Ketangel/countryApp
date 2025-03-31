@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Country } from '../interfaces/country.interfaces';
-import { catchError, map, Observable, throwError } from 'rxjs';
+import { catchError, delay, map, Observable, throwError } from 'rxjs';
 import { CountryMap } from '../interfaces/mapperCountry.interfaces';
 import { CountryMapperFiler } from '../mapper/countri.mapperFilt';
 
@@ -18,6 +18,7 @@ export class CoutryService {
     query = query.toLocaleLowerCase();
     return this.http.get<Country[]>(`${API_URL}/capital/${query}`)
       .pipe(
+        delay(3000), // contador de tiempo
         map( restCounry => CountryMapperFiler.mapRestCountryArrayToCountryArray(restCounry) ),
         catchError ( (error) => {
           return throwError(
@@ -32,6 +33,7 @@ export class CoutryService {
     query = query.toLocaleLowerCase();
     return this.http.get<Country[]>(`${API_URL}/name/${query}`)
       .pipe(
+        delay(3000), // contador de tiempo
         map( restCounry => CountryMapperFiler.mapRestCountryArrayToCountryArray(restCounry) ),
         catchError ( (error) => {
           return throwError(
