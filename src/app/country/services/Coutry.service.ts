@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Country } from '../interfaces/country.interfaces';
-import { map, Observable } from 'rxjs';
+import { catchError, map, Observable, throwError } from 'rxjs';
 import { CountryMap } from '../interfaces/mapperCountry.interfaces';
 import { CountryMapperFiler } from '../mapper/countri.mapperFilt';
 
@@ -18,7 +18,12 @@ export class CoutryService {
     query = query.toLocaleLowerCase();
     return this.http.get<Country[]>(`${API_URL}/capital/${query}`)
       .pipe(
-        map( restCounry => CountryMapperFiler.mapRestCountryArrayToCountryArray(restCounry) )
+        map( restCounry => CountryMapperFiler.mapRestCountryArrayToCountryArray(restCounry) ),
+        catchError ( (error) => {
+          return throwError(
+            ()=> new Error(`No se puedo obtener paises con esa capital ${query}`)
+          )
+        })
       )
   }
 

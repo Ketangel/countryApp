@@ -1,6 +1,25 @@
-<section>
+<!-- <section>
   <country-search-input (outSearch)="onSearch($event)" [inpuTitle]=" 'Buscar por Capital' "></country-search-input>
+</section> -->
+
+
+<!-- @if(isError()){
+  <h3>{{isError()}}</h3>
+}@else {
+  <app-country-list [countries]="countries()"></app-country-list>
+} -->
+
+
+
+
+<!-- forma 2 -->
+<section>
+  <country-search-input (outSearch)="query.set($event)" [inpuTitle]=" 'Buscar por Capital' "></country-search-input>
 </section>
 
-<app-country-list [countries]="countries()"></app-country-list>
 
+@if(countryResource.error()){
+  <h3>{{countryResource.error()}}</h3>
+}@if(countryResource.hasValue()) {
+  <app-country-list [countries]="countryResource.value()!"></app-country-list>
+}
