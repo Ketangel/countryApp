@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { CountryMap } from '../../interfaces/mapperCountry.interfaces';
 import { DecimalPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-country-list',
-  imports: [DecimalPipe],
+  imports: [DecimalPipe,RouterLink],
   templateUrl: './country-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

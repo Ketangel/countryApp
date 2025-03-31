@@ -38,7 +38,9 @@
               {{country.zoneTime}}
             </th>
             <th>
-              <button class="btn btn-ghost btn-xs">details</button>
+              <a [routerLink]="['/country/by',country.cca2]"   class="btn btn-ghost btn-xs">
+                details
+              </a>
             </th>
           </tr>
         }

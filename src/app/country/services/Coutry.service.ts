@@ -27,4 +27,18 @@ export class CoutryService {
       )
   }
 
+
+  searchByCountry(query:string):Observable<CountryMap[]>{
+    query = query.toLocaleLowerCase();
+    return this.http.get<Country[]>(`${API_URL}/name/${query}`)
+      .pipe(
+        map( restCounry => CountryMapperFiler.mapRestCountryArrayToCountryArray(restCounry) ),
+        catchError ( (error) => {
+          return throwError(
+            ()=> new Error(`No se encuntra paises con ese nombre ${query}`)
+          )
+        })
+      )
+  }
+
 }
