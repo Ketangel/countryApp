@@ -9,4 +9,7 @@ export interface CountryMap {
     population:number,
     zoneTime:string[]
 
+
+    region: string;
+    subRegion: string;
 }

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Country } from '../interfaces/country.interfaces';
-import { catchError, delay, map, Observable, throwError } from 'rxjs';
+import { catchError, count, delay, map, Observable, throwError } from 'rxjs';
 import { CountryMap } from '../interfaces/mapperCountry.interfaces';
 import { CountryMapperFiler } from '../mapper/countri.mapperFilt';
 
@@ -38,6 +38,21 @@ export class CoutryService {
         catchError ( (error) => {
           return throwError(
             ()=> new Error(`No se encuntra paises con ese nombre ${query}`)
+          )
+        })
+      )
+  }
+
+  searchCountryByCode(code:string | null){
+    return this.http.get<Country[]>(`${API_URL}/alpha/${code}`)
+      .pipe(
+        delay(2000),
+        map( restCounry => CountryMapperFiler.mapRestCountryArrayToCountryArray(restCounry) ),
+        map(countries => countries.at(0)),
+        catchError ( (error) => {
+          console.log({error})
+          return throwError(
+            ()=> new Error(`No se encuntra paises con ese codigo ${code}`)
           )
         })
       )

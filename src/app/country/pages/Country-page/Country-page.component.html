@@ -1,1 +1,15 @@
-<p>Country-page works!</p>,
+
+@if (countryResorce.error()) {
+    <app-not-found></app-not-found>
+}
+
+@if(countryResorce.isLoading()){
+    <div class="flex justify-center m-5">
+        <span class="loading loading-spinner loading-xl "></span>
+    </div>
+}
+
+@if(countryResorce.hasValue()){
+    <app-country-info [country]="countryResorce.value()!" ></app-country-info>
+
+}
