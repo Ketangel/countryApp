@@ -15,6 +15,7 @@ export class CoutryService {
   private http = inject(HttpClient);
   private queryCapitalCache  = new Map<string,CountryMap[]>()
   private queryCountryCache  = new Map<string,CountryMap[]>()
+  private queryRegionCache  = new Map<string,CountryMap[]>()
 
   searchByCapial(query:string):Observable<CountryMap[]>{
     query = query.toLocaleLowerCase();
@@ -67,6 +68,26 @@ export class CoutryService {
           console.log({error})
           return throwError(
             ()=> new Error(`No se encuntra paises con ese codigo ${code}`)
+          )
+        })
+      )
+  }
+
+  searchCountryByRegion(query:string){
+
+    
+    if( this.queryRegionCache.has(query)){
+      return of(this.queryRegionCache.get(query) ?? []);
+    }
+
+    return this.http.get<Country[]>(`${API_URL}/region/${query}`)
+      .pipe(
+        delay(3000), // contador de tiempo
+        map( restCounry => CountryMapperFiler.mapRestCountryArrayToCountryArray(restCounry) ),
+        tap( capital => this.queryRegionCache.set(query,capital)),
+        catchError ( (error) => {
+          return throwError(
+            ()=> new Error(`No se encuntra paises con ese nombre ${query}`)
           )
         })
       )

@@ -6,7 +6,7 @@ export class CountryMapperFiler {
 
     static mapRestCountry(restCountry:Country):CountryMap{
         return{
-    capital: restCountry.capital.join(','),
+    capital: restCountry.capital?.join(','),
     cca2: restCountry.cca2,
     flag: restCountry.flag,
     flagSvg: restCountry.flags.svg,
