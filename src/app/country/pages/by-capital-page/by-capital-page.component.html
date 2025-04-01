@@ -14,7 +14,10 @@
 
 <!-- forma 2 -->
 <section>
-  <country-search-input (outSearch)="query.set($event)" [inpuTitle]=" 'Buscar por Capital' "></country-search-input>
+  <country-search-input 
+    (outSearch)="query.set($event)" 
+    [inpuTitle]=" 'Buscar por Capital' "
+     [initalValue]=" query()"></country-search-input>
 </section>
 
 
