@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject, resource, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, linkedSignal, resource, signal } from '@angular/core';
 import { CountrySearchInputComponent } from "../../components/country-search-input/country-search-input.component";
 import { CountryListComponent } from "../../components/country-list/country-list.component";
 import { CoutryService } from '../../services/Coutry.service';
-import { CountryMap } from '../../interfaces/mapperCountry.interfaces';
 import { firstValueFrom } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-by-capital-page',
@@ -14,7 +14,35 @@ import { firstValueFrom } from 'rxjs';
 export class ByCapitalPageComponent { 
 
   countryServices = inject(CoutryService);
- 
+  activatedRouter = inject(ActivatedRoute)
+  router = inject(Router)
+  queryParam = this.activatedRouter.snapshot.queryParamMap.get('query')??'';
+
+   // forma dos - esta en fase experimental
+   query = linkedSignal( () => this.queryParam);
+   countryResource = resource({
+     request:() => ({ query: this.query() }),
+     loader: async({request} ) => {
+       if(!request.query)return[];
+
+       this.router.navigate(['/country/by-capital'],{
+        queryParams:{
+          query: request.query,
+        },
+       });
+
+       return await firstValueFrom(
+         this.countryServices.searchByCapial(request.query)
+       );
+     },
+   });
+
+
+
+
+
+
+
 // forma 1 - comprovado
 
   // isLoading = signal(false);
@@ -43,17 +71,7 @@ export class ByCapitalPageComponent {
   // }
 
 
-  // forma dos - esta en fase experimental
-  query = signal('')
-  countryResource = resource({
-    request:() => ({ query: this.query() }),
-    loader: async({request} ) => {
-      if(!request.query)return[];
-      return await firstValueFrom(
-        this.countryServices.searchByCapial(request.query)
-      );
-    },
-  });
+
   
 
 }

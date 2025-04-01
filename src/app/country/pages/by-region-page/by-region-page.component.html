@@ -1,3 +1,13 @@
-<app-country-list></app-country-list>
-  
+
+<section class=" flex flex-row justify-center ">
+    @for (item of regions; track $index) {
+        <button class="btn btn-soft btn-primary m-2" (click)="query.set(item)">{{item}}</button>
+    }    
+</section>
+
+<app-country-list 
+    [countries]="countryResource.value()" 
+    [isLoading]="countryResource.isLoading()"
+    [ismessangerError]="countryResource.error()"
+    ></app-country-list>
   

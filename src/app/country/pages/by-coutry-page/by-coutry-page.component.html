@@ -1,6 +1,9 @@
 <section>
-    <country-search-input (outSearch)="query.set($event)" [inpuTitle]=" 'Buscar por Pais' "></country-search-input>
-  </section>
+  <country-search-input 
+    (outSearch)="query.set($event)" 
+    [inpuTitle]=" 'Buscar por Capital' "
+     [initalValue]=" query()"></country-search-input>
+</section>
   
   
   <!-- @if(countryResource.error()){

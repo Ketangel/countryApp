@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, inject, resource, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, linkedSignal, resource, signal } from '@angular/core';
 import { CountrySearchInputComponent } from "../../components/country-search-input/country-search-input.component";
 import { CountryListComponent } from "../../components/country-list/country-list.component";
 import { CoutryService } from '../../services/Coutry.service';
 import { firstValueFrom, of } from 'rxjs';
 import {rxResource} from '@angular/core/rxjs-interop'
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-by-coutry-page',
@@ -14,15 +15,26 @@ import {rxResource} from '@angular/core/rxjs-interop'
 export class ByCoutryPageComponent {
 
   countryServices = inject(CoutryService);
-  query = signal('')
+  activatedRouter = inject(ActivatedRoute)
+  router = inject(Router)
+  queryParam = this.activatedRouter.snapshot.queryParamMap.get('query')??'';
+  query = linkedSignal( () => this.queryParam);
   
   // rxResource para observable
-  countryResource = rxResource({
+  countryResource = resource({
     request:() => ({ query: this.query() }),
-    loader: ({request} ) => {
+    loader: async({request} ) => {
+      if(!request.query)return[];
 
-      if(!request.query)return of([]);
-      return this.countryServices.searchByCountry(request.query)
+      this.router.navigate(['/country/by-country'],{
+       queryParams:{
+         query: request.query,
+       },
+      });
+
+      return await firstValueFrom(
+        this.countryServices.searchByCountry(request.query)
+      );
     },
   });
 
