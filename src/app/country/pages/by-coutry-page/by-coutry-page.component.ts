@@ -1,6 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, resource, signal } from '@angular/core';
 import { CountrySearchInputComponent } from "../../components/country-search-input/country-search-input.component";
 import { CountryListComponent } from "../../components/country-list/country-list.component";
+import { CoutryService } from '../../services/Coutry.service';
+import { firstValueFrom, of } from 'rxjs';
+import {rxResource} from '@angular/core/rxjs-interop'
 
 @Component({
   selector: 'app-by-coutry-page',
@@ -9,8 +12,19 @@ import { CountryListComponent } from "../../components/country-list/country-list
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ByCoutryPageComponent {
-onSearch($event: string) {
-throw new Error('Method not implemented.');
-}
+
+  countryServices = inject(CoutryService);
+  query = signal('')
+  
+  // rxResource para observable
+  countryResource = rxResource({
+    request:() => ({ query: this.query() }),
+    loader: ({request} ) => {
+
+      if(!request.query)return of([]);
+      return this.countryServices.searchByCountry(request.query)
+    },
+  });
+
 
 }

@@ -1,7 +1,17 @@
 <section>
-    <country-search-input (outSearch)="onSearch($event)" [inpuTitle]=" 'Buscar por Pais' "></country-search-input>
-</section>
-  
-<app-country-list></app-country-list>
+    <country-search-input (outSearch)="query.set($event)" [inpuTitle]=" 'Buscar por Pais' "></country-search-input>
+  </section>
   
   
+  <!-- @if(countryResource.error()){
+    <h3>{{countryResource.error()}}</h3>
+  }@if(countryResource.hasValue()) {
+    <app-country-list [countries]="countryResource.value()!"></app-country-list>
+  } -->
+  
+
+  <app-country-list 
+    [countries]="countryResource.value()" 
+    [isLoading]="countryResource.isLoading()"
+    [ismessangerError]="countryResource.error()"
+    ></app-country-list>
